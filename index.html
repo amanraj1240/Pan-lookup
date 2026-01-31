@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PAN Lookup</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input { padding: 8px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; }
+    .credit { margin-top: 20px; font-size: 14px; color: gray; }
+  </style>
+</head>
+<body>
+
+<h2>PAN Lookup</h2>
+
+<input id="pan" placeholder="ABCDE1234F">
+<button onclick="lookup()">Search</button>
+
+<pre id="out"></pre>
+
+<div class="credit">
+  Source:
+  https://lookup.42web.io/pancard/?i=1&q=PAN<br>
+  Credit: <b>@Urslasherr</b>
+</div>
+
+<script>
+async function lookup() {
+  const pan = document.getElementById("pan").value.trim().toUpperCase();
+  if (!pan) {
+    alert("PAN enter karo");
+    return;
+  }
+
+  const url = `https://lookup.42web.io/pancard/?i=1&q=${pan}`;
+
+  try {
+    const res = await fetch(url, { credentials: "include" });
+    const data = await res.json();
+    document.getElementById("out").textContent =
+      JSON.stringify(data, null, 2);
+  } catch (e) {
+    document.getElementById("out").textContent =
+      "Error: " + e.message;
+  }
+}
+</script>
+
+</body>
+</html>
